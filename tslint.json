@@ -1,14 +1,9 @@
 {
   "extends": "tslint:recommended",
   "rules": {
-    "array-type": false,
-    "arrow-parens": false,
-    "deprecation": {
-      "severity": "warning"
-    },
-    "component-class-suffix": true,
-    "contextual-lifecycle": true,
-    "directive-class-suffix": true,
+    "rules": {
+    "template-banana-in-box": true,
+    "template-no-negated-async": true,
     "directive-selector": [
       true,
       "attribute",
@@ -21,69 +16,106 @@
       "app",
       "kebab-case"
     ],
-    "import-blacklist": [
-      true,
-      "rxjs/Rx"
+    "component-max-inline-declarations": true,
+    "no-lifecycle-call": false,
+    "prefer-output-readonly": false,
+    "no-conflicting-lifecycle": true,
+    "enforce-component-selector": false,
+    "no-inputs-metadata-property": true,
+    "no-outputs-metadata-property": true,
+    "no-host-metadata-property": true,
+    "use-view-encapsulation": false,
+    "no-attribute-decorator": true,
+    "no-input-rename": true,
+    "no-output-rename": true,
+    "no-output-on-prefix": false,
+    "no-forward-ref": true,
+    "no-unused-css": false,
+    "use-lifecycle-interface": true,
+    "contextual-lifecycle": true,
+    "trackBy-function": false,
+    "use-pipe-transform-interface": true,
+    "component-class-suffix": true,
+    "directive-class-suffix": true,
+    "no-pipe-impure": true,
+    "i18n": [
+      false,
+      "check-id",
+      "check-text"
     ],
-    "interface-name": false,
-    "max-classes-per-file": false,
-    "max-line-length": [
-      true,
-      140
+    "template-cyclomatic-complexity": [
+      false,
+      5
     ],
-    "member-access": false,
-    "member-ordering": [
+    "template-conditional-complexity": [
       true,
-      {
-        "order": [
-          "static-field",
-          "instance-field",
-          "static-method",
-          "instance-method"
-        ]
-      }
+      4
     ],
-    "no-consecutive-blank-lines": false,
+    "trailing-comma": [false, {
+      "multiline": "always",
+      "singleline": "never"
+    }],
+    "interface-name": [false, "always-prefix"],
+    "use-pipe-decorator": true,
     "no-console": [
       true,
-      "debug",
-      "info",
       "time",
       "timeEnd",
       "trace"
     ],
-    "no-empty": false,
-    "no-inferrable-types": [
+    "max-line-length": [true, {
+      "limit": 100,
+      "ignore-pattern": "^import |^export"
+    }],
+    "max-file-line-count": [
       true,
-      "ignore-params"
+      500
     ],
-    "no-non-null-assertion": true,
-    "no-redundant-jsdoc": true,
-    "no-switch-case-fall-through": true,
-    "no-var-requires": false,
-    "object-literal-key-quotes": [
-      true,
-      "as-needed"
-    ],
+    "no-string-literal": false,
     "object-literal-sort-keys": false,
-    "ordered-imports": false,
     "quotemark": [
       true,
-      "single"
+      "single",
+      "avoid-escape"
     ],
-    "trailing-comma": false,
-    "no-conflicting-lifecycle": true,
-    "no-host-metadata-property": true,
-    "no-input-rename": true,
-    "no-inputs-metadata-property": true,
-    "no-output-native": true,
-    "no-output-on-prefix": true,
-    "no-output-rename": true,
-    "no-outputs-metadata-property": true,
-    "template-banana-in-box": true,
-    "template-no-negated-async": true,
-    "use-lifecycle-interface": true,
-    "use-pipe-transform-interface": true
+    "variable-name": [
+      true,
+      "allow-leading-underscore",
+      "allow-pascal-case",
+      "ban-keywords",
+      "check-format"
+    ],
+    "globals-module-required": true,
+    "no-duplicate-imports": true,
+    "ordered-imports": [
+      true,
+      {
+        "module-source-path": "full",
+        "grouped-imports": true,
+        "groups": [
+          {
+            "name": "angular",
+            "match": "^@angular\/.*",
+            "order": 1
+          },
+          {
+            "name": "@shared",
+            "match": "^(@shared|environment).*",
+            "order": 3
+          },
+          {
+            "name": "relative dir",
+            "match": "^([.]|app).*",
+            "order": 4
+          },
+          {
+            "name": "node_modules",
+            "match": ".*",
+            "order": 2
+          }
+        ]
+      }
+    ]
   },
   "rulesDirectory": [
     "codelyzer"
