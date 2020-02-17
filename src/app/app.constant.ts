@@ -3,9 +3,9 @@ import { ImportMethod } from '@evley/importer';
 export const CONSTANTS: Constants = {
   appId: 'FIRE',
   importMethods: [ImportMethod.CSV],
+  id: 'id',
   positive: 'positive',
   negative: 'negative',
-  impact: 'impact',
   financial: {
     currency: 'GBP',
     income: 'income',
@@ -19,9 +19,9 @@ export const CONSTANTS: Constants = {
 export interface Constants {
   appId: 'FIRE';
   importMethods: Array<keyof typeof ImportMethod>;
+  id: string;
   positive: string;
   negative: string;
-  impact: string;
   financial: {
     currency: string;
     income: string;
