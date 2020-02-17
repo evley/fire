@@ -1,0 +1,40 @@
+@import 'variables';
+@import 'animations';
+
+.header {
+  height: 64px;
+  border-bottom: 1px solid #ddd;
+  background-color: #fff;
+  display: flex;
+
+  &__block {
+    @include transition;
+
+    border-right: 1px solid #ddd;
+    padding: 0px 32px;
+    opacity: 0.4;
+    text-transform: capitalize;
+
+    &__text {
+      margin: 0px;
+      font-weight: bold;
+
+      &--positive {
+        color: $positive-colour;
+      }
+
+      &--negative {
+        color: $negative-colour;
+      }
+    }
+
+    &--active {
+      opacity: 1;
+    }
+
+    &--import {
+      border: 0px;
+      margin-left: auto;
+    }
+  }
+}

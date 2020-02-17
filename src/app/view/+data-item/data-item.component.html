@@ -1,0 +1,26 @@
+<div
+  *ngIf="hasItem"
+  [id]="'item_' + item.id"
+  class="data-item"
+  [title]="title"
+  [ngStyle]="hasImage ? {'background-image': 'url(' + item.image + ')'} : ''"
+  [class.data-item--has-image]="hasImage"
+  [class.data-item--negative]="hasNegativeImpact"
+  [class.data-item--positive]="hasPositiveImpact"
+  [class.data-item--active]="item.active"
+  (mouseenter)="showInfluence(item)"
+  (mouseleave)="hideInfluence()">
+
+  <div class="data-item__badge">
+    {{ item.impact }}
+  </div>
+
+  <mat-icon *ngIf="hasIcon">
+    {{ item.icon }}
+  </mat-icon>
+  <span
+    class="data-item__name"
+    *ngIf="!hasImage && !hasIcon">
+      {{ item.name }}
+  </span>
+</div>

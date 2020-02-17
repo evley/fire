@@ -1,0 +1,93 @@
+@import 'variables';
+@import 'animations';
+
+.data-item {
+  @include transition;
+
+  $self: &;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  width: 60px;
+  border-radius: 100%;
+  background-color: #fff;
+  float: left;
+  margin: 10px 10px 10px 0px;
+  border: 3px solid #fff;
+  position: relative;
+  opacity: 0.1;
+
+  &__badge {
+    position: absolute;
+    top: -5px;
+    right: -2px;
+    font-size: 10px;
+    width: 20px;
+    height: 20px;
+    padding: 0px;
+    text-align: center;
+    border-radius: 100%;
+    line-height: 20px;
+    background-color: #333;
+    border: 2px solid #fff;
+    color: #fff;
+  }
+
+  &__name {
+    font-size: 0;
+    font-weight: bold;
+    vertical-align: middle;
+    height: 30px;
+    line-height: 30px;
+
+    &::first-letter {
+      font-size: 24px;
+
+    }
+  }
+
+  &--has-image {
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: cover;
+    background-color: #fff !important;
+  }
+
+  &--positive {
+    #{$self}__badge {
+      background-color: $positive-colour;
+    }
+  }
+
+  &--negative {
+    background-color: $negative-colour;
+    color: #fff;
+
+    #{$self}__badge {
+      background-color: $negative-colour;
+    }
+  }
+
+  &:hover {
+    #{$self}--positive {
+      border-color: $positive-colour;
+    }
+
+    #{$self}--negative {
+      border-color: $negative-colour;
+    }
+  }
+
+  &--active {
+    opacity: 1;
+
+    #{$self}--positive {
+      border-color: $positive-colour;
+    }
+
+    #{$self}--negative {
+      border-color: $negative-colour;
+    }
+  }
+}
