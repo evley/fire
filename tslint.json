@@ -1,7 +1,6 @@
 {
   "extends": "tslint:recommended",
   "rules": {
-    "rules": {
     "template-banana-in-box": true,
     "template-no-negated-async": true,
     "directive-selector": [
