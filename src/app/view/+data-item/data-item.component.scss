@@ -5,6 +5,7 @@
   @include transition;
 
   $self: &;
+  cursor: help;
   display: flex;
   justify-content: center;
   align-items: center;

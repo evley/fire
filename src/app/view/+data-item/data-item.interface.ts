@@ -4,8 +4,8 @@ export interface DataItem {
   image: string;
   icon: string;
   impact: number;
-  negative: string[];
-  positive: string[];
+  negative: number[];
+  positive: number[];
   income: number;
   expenditure: number;
   debt: number;

@@ -8,8 +8,8 @@
   [class.data-item--negative]="hasNegativeImpact"
   [class.data-item--positive]="hasPositiveImpact"
   [class.data-item--active]="item.active"
-  (mouseenter)="showInfluence(item)"
-  (mouseleave)="hideInfluence()">
+  (mouseenter)="showInfluence(true)"
+  (mouseleave)="showInfluence(false)">
 
   <div class="data-item__badge">
     {{ item.impact }}
