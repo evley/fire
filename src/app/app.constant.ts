@@ -5,7 +5,6 @@ export const CONSTANTS: Constants = {
   importMethods: [ImportMethod.CSV],
   fireMultiplier: 25,
   financial: {
-    currency: 'GBP',
     income: 'income',
     expenditure: 'expenditure',
     essential: 'essential',
@@ -21,7 +20,6 @@ export interface Constants {
   importMethods: Array<keyof typeof ImportMethod>;
   fireMultiplier: number;
   financial: {
-    currency: string;
     income: string;
     expenditure: string;
     essential: string;

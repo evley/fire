@@ -12,8 +12,6 @@ const negativeList = [CONSTANTS.financial.liability, CONSTANTS.financial.expendi
 })
 export class HeaderComponent {
   @Input()
-  public currency: string = 'GBP';
-  @Input()
   public financial: Financial;
 
   public importName = CONSTANTS.appId;
