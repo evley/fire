@@ -84,7 +84,6 @@
       "ban-keywords",
       "check-format"
     ],
-    "globals-module-required": true,
     "no-duplicate-imports": true,
     "ordered-imports": [
       true,
