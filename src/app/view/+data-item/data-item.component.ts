@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import { DataItemInfluenceEvent } from './data-item-influence-event.interface';
 import { DataItem } from './data-item.interface';
 
 @Component({
@@ -10,11 +9,6 @@ import { DataItem } from './data-item.interface';
 })
 export class DataItemComponent {
   @Input() public item: DataItem;
-  @Output() public onInfluence: EventEmitter<DataItemInfluenceEvent> = new EventEmitter();
-
-  public showInfluence(show: boolean): void {
-    this.onInfluence.emit({ item: this.item, show });
-  }
 
   public get hasItem(): boolean {
     return Boolean(this.item);

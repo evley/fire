@@ -4,11 +4,9 @@ export interface DataItem {
   image: string;
   icon: string;
   impact: number;
-  negative: number[];
-  positive: number[];
   income: number;
   expenditure: number;
-  debt: number;
-  savings: number;
-  active: boolean;
+  essential: boolean;
+  liability: number;
+  assets: number;
 }

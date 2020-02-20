@@ -1,10 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { CONSTANTS } from '../../app.constant';
 import { FinanceGroup, Financial } from './financial.interface';
 
-const negativeList = [CONSTANTS.financial.debt, CONSTANTS.financial.expenditure];
+const negativeList = [CONSTANTS.financial.liability, CONSTANTS.financial.expenditure];
 
 @Component({
   selector: 'app-header',
@@ -19,8 +18,6 @@ export class HeaderComponent {
 
   public importName = CONSTANTS.appId;
   public importMethods = CONSTANTS.importMethods;
-
-  constructor(private _router: Router) {}
 
   public get financialKeys(): any[] {
     return Object.keys(this.financial);

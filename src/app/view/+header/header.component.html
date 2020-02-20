@@ -3,8 +3,7 @@
 
   <div
     class="header__block"
-    *ngFor="let item of financialKeys"
-    [class.header__block--active]="financial[item].active">
+    *ngFor="let item of financialKeys">
 
     <h5>{{ financial[item].name }}</h5>
 
@@ -17,7 +16,7 @@
     </p>
   </div>
 
-  <div class="header__block header__block--import header__block--active">
+  <div class="header__block header__block--import">
     <evley-importer
       [name]="importName"
       [importMethods]="importMethods">

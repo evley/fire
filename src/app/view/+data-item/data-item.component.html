@@ -6,10 +6,7 @@
   [ngStyle]="hasImage ? {'background-image': 'url(' + item.image + ')'} : ''"
   [class.data-item--has-image]="hasImage"
   [class.data-item--negative]="hasNegativeImpact"
-  [class.data-item--positive]="hasPositiveImpact"
-  [class.data-item--active]="item.active"
-  (mouseenter)="showInfluence(true)"
-  (mouseleave)="showInfluence(false)">
+  [class.data-item--positive]="hasPositiveImpact">
 
   <div class="data-item__badge">
     {{ item.impact }}

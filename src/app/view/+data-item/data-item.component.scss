@@ -17,7 +17,6 @@
   margin: 10px 10px 10px 0px;
   border: 3px solid #fff;
   position: relative;
-  opacity: 0.1;
 
   &__badge {
     position: absolute;
@@ -71,18 +70,6 @@
   }
 
   &:hover {
-    #{$self}--positive {
-      border-color: $positive-colour;
-    }
-
-    #{$self}--negative {
-      border-color: $negative-colour;
-    }
-  }
-
-  &--active {
-    opacity: 1;
-
     #{$self}--positive {
       border-color: $positive-colour;
     }
