@@ -32,6 +32,7 @@
     background-color: #333;
     border: 2px solid #fff;
     color: #fff;
+    background-color: $neutral-colour;
   }
 
   &__name {
@@ -55,6 +56,9 @@
   }
 
   &--positive {
+    background-color: $positive-colour;
+    color: #fff;
+
     #{$self}__badge {
       background-color: $positive-colour;
     }

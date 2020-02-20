@@ -22,7 +22,6 @@ const numberList = [
 })
 export class ViewComponent implements OnInit {
   public items: DataItem[] = [];
-  public currency = CONSTANTS.financial.currency;
   public financial: Financial = {
     income: {
       name: CONSTANTS.financial.income,
@@ -66,16 +65,38 @@ export class ViewComponent implements OnInit {
 
   private _setData(): void {
     const data = this._getData();
-    this.items = this._buildItems(data);
+    const dataIitems = this._buildDataItems(data);
+    this._setFinancials(dataIitems);
+    this.items = this._setImpact(dataIitems);
     console.log('#### data', this.items);
-    this._buildFinancials(this.items);
   }
 
   private _getData(): object[] {
     return JSON.parse(window.localStorage.getItem(CONSTANTS.appId));
   }
 
-  private _buildFinancials(items: DataItem[]): void {
+  private _setImpact(items: DataItem[]): DataItem[] {
+    return items
+      .map((item) => ({ ...item, impact: this._calculateImpact(item) }))
+      .sort(this._sortByImpact);
+  }
+
+  private _calculateImpact(item: DataItem): number {
+    const { FIRE, profit, income, expenditure } = this.financial;
+    return parseFloat(
+      (item.income > 0
+        ? income.value - item.income > expenditure.value
+          ? FIRE.value / profit.value -
+            FIRE.value / (income.value - item.income - expenditure.value)
+          : -Infinity
+        : FIRE.value / profit.value -
+          (FIRE.value - (item.essential ? item.expenditure * CONSTANTS.fireMultiplier : 0)) /
+            (item.expenditure + profit.value)
+      ).toFixed(2)
+    );
+  }
+
+  private _setFinancials(items: DataItem[]): void {
     this._resetFinancials();
     items
       .map((item) => {
@@ -100,18 +121,15 @@ export class ViewComponent implements OnInit {
     return b.impact - a.impact;
   }
 
-  private _buildItems(data: object[]): DataItem[] {
+  private _buildDataItems(data: object[]): DataItem[] {
     const headers = Object.keys(data[0]).map((header) => header.toLowerCase());
     return data
       .map((value) => {
         const item = {} as DataItem;
         headers.map((header) => (item[header] = this._handleItemValue(header, value[header])));
-        // TODO: Impact on FIRE time
-        item.impact = Math.round(Math.random() * 100);
         return item;
       })
-      .filter((item) => !!item.name)
-      .sort(this._sortByImpact);
+      .filter((item) => !!item.name);
   }
 
   private _handleItemValue(header: string, value: string): string | number | boolean {

@@ -8,7 +8,7 @@
   [class.data-item--positive]="hasPositiveImpact">
 
   <div class="data-item__badge">
-    {{ item.impact }}
+    {{ item.impact | number:'1.0-0' }}
   </div>
 
   <mat-icon *ngIf="hasIcon">
