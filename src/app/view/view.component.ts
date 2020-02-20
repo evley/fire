@@ -35,8 +35,12 @@ export class ViewComponent implements OnInit {
       name: CONSTANTS.financial.profit,
       value: 0
     },
-    FIRE: {
-      name: CONSTANTS.financial.FIRE,
+    fireReq: {
+      name: CONSTANTS.financial.fireReq,
+      value: 0
+    },
+    fireTime: {
+      name: CONSTANTS.financial.fireTime,
       value: 0
     },
     liability: {
@@ -82,15 +86,15 @@ export class ViewComponent implements OnInit {
   }
 
   private _calculateImpact(item: DataItem): number {
-    const { FIRE, profit, income, expenditure } = this.financial;
+    const { fireReq, profit, income, expenditure } = this.financial;
     return parseFloat(
       (item.income > 0
         ? income.value - item.income > expenditure.value
-          ? FIRE.value / profit.value -
-            FIRE.value / (income.value - item.income - expenditure.value)
+          ? fireReq.value / profit.value -
+            fireReq.value / (income.value - item.income - expenditure.value)
           : -Infinity
-        : FIRE.value / profit.value -
-          (FIRE.value - (item.essential ? item.expenditure * CONSTANTS.fireMultiplier : 0)) /
+        : fireReq.value / profit.value -
+          (fireReq.value - (item.essential ? item.expenditure * CONSTANTS.fireMultiplier : 0)) /
             (item.expenditure + profit.value)
       ).toFixed(2)
     );
@@ -108,11 +112,12 @@ export class ViewComponent implements OnInit {
       })
       .filter((item) => item.essential && item.expenditure > 0)
       .map((item) => {
-        this.financial.FIRE.value += item.expenditure * CONSTANTS.fireMultiplier;
+        this.financial.fireReq.value += item.expenditure * CONSTANTS.fireMultiplier;
       });
     this.financial.profit.value = this.financial.income.value - this.financial.expenditure.value;
-    this.financial.FIRE.value =
-      this.financial.FIRE.value + (this.financial.liability.value - this.financial.assets.value);
+    this.financial.fireReq.value =
+      this.financial.fireReq.value + (this.financial.liability.value - this.financial.assets.value);
+    this.financial.fireTime.value = this.financial.fireReq.value / this.financial.profit.value;
   }
 
   private _resetFinancials(): void {

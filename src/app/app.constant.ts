@@ -9,7 +9,8 @@ export const CONSTANTS: Constants = {
     expenditure: 'expenditure',
     essential: 'essential',
     profit: 'profit',
-    FIRE: 'FIRE',
+    fireReq: 'FIRE req.',
+    fireTime: 'FIRE time',
     liability: 'liability',
     assets: 'assets'
   }
@@ -24,7 +25,8 @@ export interface Constants {
     expenditure: string;
     essential: string;
     profit: string;
-    FIRE: string;
+    fireReq: string;
+    fireTime: string;
     liability: string;
     assets: string;
   };
