@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import * as d3 from 'd3';
+// TODO:
+// import * as d3 from 'd3';
 
 import { CONSTANTS } from '../app.constant';
 import { DataItem } from './+data-item/data-item.interface';
@@ -9,7 +10,6 @@ import { Financial } from './+header/financial.interface';
 
 const booleanList = [CONSTANTS.financial.essential];
 const numberList = [
-  CONSTANTS.id,
   CONSTANTS.financial.income,
   CONSTANTS.financial.expenditure,
   CONSTANTS.financial.liability,
@@ -34,6 +34,10 @@ export class ViewComponent implements OnInit {
     },
     profit: {
       name: CONSTANTS.financial.profit,
+      value: 0
+    },
+    FIRE: {
+      name: CONSTANTS.financial.FIRE,
       value: 0
     },
     liability: {
@@ -73,12 +77,18 @@ export class ViewComponent implements OnInit {
 
   private _buildFinancials(items: DataItem[]): void {
     this._resetFinancials();
-    items.map((item) => {
-      this.financial.income.value += item.income || 0;
-      this.financial.expenditure.value += item.expenditure || 0;
-      this.financial.liability.value += item.liability || 0;
-      this.financial.assets.value += item.assets || 0;
-    });
+    items
+      .map((item) => {
+        this.financial.income.value += item.income || 0;
+        this.financial.expenditure.value += item.expenditure || 0;
+        this.financial.liability.value += item.liability || 0;
+        this.financial.assets.value += item.assets || 0;
+        return item;
+      })
+      .filter((item) => item.essential && item.expenditure > 0)
+      .map((item) => {
+        this.financial.FIRE.value += item.expenditure * CONSTANTS.fireMultiplier;
+      });
     this.financial.profit.value = this.financial.income.value - this.financial.expenditure.value;
   }
 
@@ -100,7 +110,7 @@ export class ViewComponent implements OnInit {
         item.impact = Math.round(Math.random() * 100);
         return item;
       })
-      .filter((item) => !!item.id)
+      .filter((item) => !!item.name)
       .sort(this._sortByImpact);
   }
 

@@ -1,5 +1,4 @@
 export interface DataItem {
-  id: number;
   name: string;
   image: string;
   icon: string;

@@ -1,6 +1,5 @@
 <div
   *ngIf="hasItem"
-  [id]="'item_' + item.id"
   class="data-item"
   [title]="title"
   [ngStyle]="hasImage ? {'background-image': 'url(' + item.image + ')'} : ''"
