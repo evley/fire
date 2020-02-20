@@ -1,7 +1,7 @@
 <div
   *ngIf="hasItem"
   class="data-item"
-  [title]="title"
+  [matTooltip]="title"
   [ngStyle]="hasImage ? {'background-image': 'url(' + item.image + ')'} : ''"
   [class.data-item--has-image]="hasImage"
   [class.data-item--negative]="hasNegativeImpact"

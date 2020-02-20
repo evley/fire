@@ -1,6 +1,10 @@
 @import 'variables';
 @import 'animations';
 
+::ng-deep .mat-tooltip  {
+  white-space: pre-line;
+}
+
 .data-item {
   @include transition;
 

@@ -1,6 +1,11 @@
+import { CurrencyPipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
+import { CONSTANTS } from 'src/app/app.constant';
+
 import { DataItem } from './data-item.interface';
+
+const displayAsCurrency = (num: number) => new CurrencyPipe('en-US').transform(num, ' ');
 
 @Component({
   selector: 'app-data-item',
@@ -23,11 +28,15 @@ export class DataItemComponent {
   }
 
   public get title(): string {
-    return `${this.item.name} (${
-      this.hasNegativeImpact ? 'Adds' : 'Subtracts'
-    } ${this._yearsMonthsDays(this.item.impact)} ${
-      this.hasNegativeImpact ? 'to' : 'from'
-    } your FIRE age)`;
+    return `${this.item.name}\n-----------\n+ ${displayAsCurrency(
+      this.item.essential ? this.item.expenditure * CONSTANTS.fireMultiplier : 0
+    )} FIRE amount\n+ ${displayAsCurrency(this.item.income)} income\n+ ${displayAsCurrency(
+      this.item.expenditure
+    )} expenditure\n+ ${displayAsCurrency(this.item.liability)} liability\n+ ${displayAsCurrency(
+      this.item.assets
+    )} assets\n-----------\n${this.hasNegativeImpact ? '+' : '-'} ${this._yearsMonthsDays(
+      this.item.impact
+    )} ${this.hasNegativeImpact ? 'to' : 'from'} your FIRE age`;
   }
 
   public get hasImage(): boolean {

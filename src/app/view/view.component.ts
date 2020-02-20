@@ -111,6 +111,8 @@ export class ViewComponent implements OnInit {
         this.financial.FIRE.value += item.expenditure * CONSTANTS.fireMultiplier;
       });
     this.financial.profit.value = this.financial.income.value - this.financial.expenditure.value;
+    this.financial.FIRE.value =
+      this.financial.FIRE.value + (this.financial.liability.value - this.financial.assets.value);
   }
 
   private _resetFinancials(): void {
