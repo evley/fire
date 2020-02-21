@@ -71,7 +71,6 @@
         }
 
         &__value {
-
           &--positive {
             color: $positive-colour;
           }
@@ -85,7 +84,6 @@
     }
 
     &--key {
-
       #{$self}__circle {
         fill: #fff !important;
         stroke: #fff !important;
