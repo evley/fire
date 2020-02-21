@@ -1,26 +1,16 @@
 
-<mat-toolbar class="header">
+<div class="header">
 
-  <div
-    class="header__block"
-    *ngFor="let item of financialKeys">
+  <h1 class="header__title">
+    <span class="header__title__app-id">FIRE</span>
+    <small>.evley.app</small>
+  </h1>
 
-    <h5>{{ financial[item].name }}</h5>
-
-    <p
-      [id]="financial[item].name"
-      class="header__block__text"
-      [class.header__block__text--positive]="isPositive(financial[item])"
-      [class.header__block__text--negative]="isNegative(financial[item])">
-        {{ financial[item].value | currency:' ' }}
-    </p>
-  </div>
-
-  <div class="header__block header__block--import">
+  <div class="header__import">
     <evley-importer
       [name]="importName"
       [importMethods]="importMethods">
     </evley-importer>
   </div>
 
-</mat-toolbar>
+</div>
