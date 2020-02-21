@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { DataItemModule } from './+data-item/data-item.module';
+import { BubbleGraphModule } from './+bubble-graph/bubble-graph.module';
 import { HeaderModule } from './+header/header.module';
 import { ViewRoutingModule } from './view-routing';
 import { ViewComponent } from './view.component';
 
 @NgModule({
-  imports: [CommonModule, DataItemModule, HeaderModule, ViewRoutingModule],
+  imports: [CommonModule, BubbleGraphModule, HeaderModule, ViewRoutingModule],
   declarations: [ViewComponent],
   providers: []
 })

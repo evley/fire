@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { DataItemComponent } from './data-item.component';
+import { BubbleGraphComponent } from './bubble-graph.component';
+import { BubbleGraphService } from './bubble-graph.service';
 
 @NgModule({
   imports: [CommonModule, MatIconModule, MatTooltipModule],
-  declarations: [DataItemComponent],
-  exports: [DataItemComponent]
+  declarations: [BubbleGraphComponent],
+  exports: [BubbleGraphComponent],
+  providers: [BubbleGraphService]
 })
-export class DataItemModule {}
+export class BubbleGraphModule {}

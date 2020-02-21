@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DataItemComponent } from './data-item.component';
+import { BubbleGraphComponent } from './bubble-graph.component';
 
-describe('DataItemComponent', () => {
-  let component: DataItemComponent;
-  let fixture: ComponentFixture<DataItemComponent>;
+describe('BubbleGraphComponent', () => {
+  let component: BubbleGraphComponent;
+  let fixture: ComponentFixture<BubbleGraphComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [DataItemComponent]
+      declarations: [BubbleGraphComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DataItemComponent);
+    fixture = TestBed.createComponent(BubbleGraphComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
