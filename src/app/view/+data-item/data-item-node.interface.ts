@@ -6,4 +6,6 @@ export interface DataItemNode extends d3.SimulationNodeDatum {
   r: number;
   x: number;
   y: number;
+  fx?: number;
+  fy?: number;
 }

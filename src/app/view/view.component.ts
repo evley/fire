@@ -77,8 +77,6 @@ export class ViewComponent implements OnInit {
     this._setFinancials(dataIitems);
     const dataItemsWithImpact = this._setImpact(dataIitems);
     this.items = this._addItemSummary(dataItemsWithImpact);
-
-    console.log('#### data', this.items);
   }
 
   private _addItemSummary(items: DataItem[]): DataItem[] {
@@ -193,7 +191,7 @@ export class ViewComponent implements OnInit {
       const svg = d3
         .select('#chart')
         .append('svg')
-        .attr('preserveAspectRatio', 'xMinYMin meet')
+        .attr('preserveAspectRatio', 'xMidYMid meet')
         .attr('viewBox', `0 0 ${width} ${height}`)
         .attr('class', 'chart__svg');
 
@@ -232,10 +230,40 @@ export class ViewComponent implements OnInit {
         .enter()
         .append('g')
         .attr('class', (d) => `data-item ${this._dataItemClass(d.data)}`);
+      // TODO: Allow dragging?
+      // .call(
+      //   d3
+      //     .drag()
+      //     .on('start', (d: DataItemNode) => {
+      //       if (!d3.event.active) {
+      //         simulation.alphaTarget(0.2).restart();
+      //       }
+      //       d.fx = d.x;
+      //       d.fy = d.y;
+      //     })
+      //     .on('drag', (d: DataItemNode) => {
+      //       d.fx = d3.event.x;
+      //       d.fy = d3.event.y;
+      //     })
+      //     .on('end', (d: DataItemNode) => {
+      //       if (!d3.event.active) {
+      //         simulation.alphaTarget(0);
+      //       }
+      //       d.fx = null;
+      //       d.fy = null;
+      //     })
+      // );
 
       simulation.nodes(nodes).on('tick', () => {
         node
-          .attr('transform', (d) => `translate(${d.x},${d.y})`)
+          .attr(
+            'transform',
+            (d) =>
+              `translate(${Math.max(d.r, Math.min(width - d.r, d.x))},${Math.max(
+                d.r,
+                Math.min(height - d.r, d.y)
+              )})`
+          )
           .select('circle')
           .attr('r', (d) => d.r);
       });
