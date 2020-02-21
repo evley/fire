@@ -52,6 +52,46 @@
       fill: #fff;
     }
 
+    &__summary {
+      fill: #000;
+
+      &__title {
+        text-align: center;
+        margin: 32px 44px !important;
+      }
+
+      &__finance-item {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #eee;
+
+        &__name {
+          text-transform: capitalize;
+          font-weight: bold;
+        }
+
+        &__value {
+
+          &--positive {
+            color: $positive-colour;
+          }
+
+          &--negative {
+            color: $negative-colour;
+          }
+        }
+
+      }
+    }
+
+    &--key {
+
+      #{$self}__circle {
+        fill: #fff !important;
+        stroke: #fff !important;
+      }
+    }
+
     &--has-image {
       #{$self}__circle {
         fill: #fff !important;
@@ -69,6 +109,12 @@
       #{$self}__circle {
         fill: $negative-colour;
         stroke: $negative-colour;
+      }
+    }
+
+    &--essential {
+      #{$self}__circle {
+        stroke: $warn-colour;
       }
     }
   }

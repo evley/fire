@@ -9,7 +9,7 @@ export const CONSTANTS: Constants = {
     expenditure: 'expenditure',
     essential: 'essential',
     profit: 'profit',
-    fireReq: 'FIRE req.',
+    fireReq: 'FIRE fund required',
     fireTime: 'FIRE time',
     liability: 'liability',
     assets: 'assets'

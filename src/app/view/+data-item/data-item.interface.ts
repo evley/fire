@@ -1,8 +1,9 @@
 export interface DataItem {
+  key: boolean;
+  impact: number;
   name: string;
   image: string;
   icon: string;
-  impact: number;
   income: number;
   expenditure: number;
   essential: boolean;
