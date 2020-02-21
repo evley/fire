@@ -3,33 +3,56 @@
 
 ::ng-deep {
 
+  .chart {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    vertical-align: top;
+    overflow: hidden;
+
+    &__svg {
+      display: inline-block;
+      position: absolute;
+      top: 10px;
+      left: 0;
+    }
+  }
+
   .data-item {
     @include transition;
 
     $self: &;
     fill: #fff;
 
+    > * {
+      -moz-user-select: none;
+      -khtml-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
     &__circle {
       fill: $neutral-colour;
-      stroke-width: 3px;
-      stroke: #fff;
+      stroke-width: 8px;
+      stroke: transparent;
+    }
 
-      &__image {
-        fill: #fff;
-      }
+    &__image {
+      fill: #fff;
+    }
 
-      &__text {
-        fill: #fff;
-        text-transform: uppercase;
-      }
+    &__text {
+      fill: #fff;
+      text-transform: uppercase;
+    }
 
-      &__icon {
-        fill: #fff;
-      }
+    &__icon {
+      fill: #fff;
     }
 
     &--has-image {
-
       #{$self}__circle {
         fill: #fff !important;
       }
@@ -50,66 +73,3 @@
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// text {
-//   font: 16px sans-serif;
-//   fill: #fff;
-//   transition: all 0.3s;
-// }
-
-// .label {
-//   fill: #000;
-// }
-
-// .chart {
-//   max-width: 600px;
-//   max-height: 600px;
-// }
-
-// .chart-svg {
-//   width: 100%;
-//   height: 100%;
-// }
-
-// .node {
-//   @for $i from 1 through 30 {
-//     &:nth-child(#{$i}) .graph {
-//       $delay: $i * 0.075s;
-//       animation-delay: $delay;
-//     }
-//   }
-// }
-
-// .graph {
-//   opacity: 0;
-//   animation-name: animateIn;
-//   animation-duration: 1s;
-//   animation-fill-mode: forwards;
-// }
-
-// @keyframes animateIn {
-//   0% {
-//     opacity: 0;
-//     transform: scale(0.6) rotate(-15deg);
-//   }
-//   100% {
-//     opacity: 1;
-//     transform: scale(1) rotate(0);
-//   }
-// }
