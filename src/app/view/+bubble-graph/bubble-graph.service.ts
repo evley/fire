@@ -20,7 +20,8 @@ const settings: BubbleGraphSettings = {
   centreX: width * 0.5,
   centreY: height * 0.5,
   strength: 0.05,
-  padding: 6
+  padding: 6,
+  transitionSpeed: 800
 };
 
 @Injectable({
@@ -109,7 +110,7 @@ export class BubbleGraphService {
       .attr('r', 0)
       .attr('class', 'data-item__circle')
       .transition()
-      .duration(300)
+      .duration(settings.transitionSpeed)
       .ease(d3.easeElasticOut)
       .tween('circleIn', (d) => (t) => {
         d.r = d3.interpolateNumber(0, d.radius)(t);
@@ -145,7 +146,7 @@ export class BubbleGraphService {
           <h1 class="data-item__summary__title">
             ${this._yearsMonthsDays(financial.fireTime.value)}
           </h1>
-          ${this._financialKeys(financial).reduce(
+          ${this._getOrderedFinancialKeys(financial).reduce(
             (listStr, key) =>
               (listStr +=
                 '<p class="data-item__summary__finance-item">' +
@@ -165,7 +166,7 @@ export class BubbleGraphService {
       )
       .attr('class', 'data-item__summary')
       .transition()
-      .duration(600)
+      .duration(settings.transitionSpeed * 2)
       .ease(d3.easePolyOut)
       .tween('circleIn', (d) => (t) => {
         d.fx = d3.interpolateNumber(d.x, settings.centreX)(t);
@@ -297,7 +298,7 @@ export class BubbleGraphService {
     return item.key;
   }
 
-  private _financialKeys(financial: Financial): string[] {
+  private _getOrderedFinancialKeys(financial: Financial): string[] {
     const { income, expenditure, profit, assets, liability, fireReq } = financial;
     return Object.keys({ income, expenditure, profit, assets, liability, fireReq });
   }

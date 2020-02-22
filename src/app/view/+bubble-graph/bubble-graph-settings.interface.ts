@@ -7,4 +7,5 @@ export interface BubbleGraphSettings {
   centreY: number;
   strength: number;
   padding: number;
+  transitionSpeed: number;
 }
