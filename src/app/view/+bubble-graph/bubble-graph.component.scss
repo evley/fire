@@ -30,7 +30,7 @@
 
     &__circle {
       fill: $neutral-colour;
-      stroke-width: 8px;
+      stroke-width: 4px;
       stroke: transparent;
     }
 
@@ -94,14 +94,14 @@
     &--positive {
       #{$self}__circle {
         fill: $positive-colour;
-        stroke: $positive-colour;
+        stroke: darken($positive-colour, 5%);
       }
     }
 
     &--negative {
       #{$self}__circle {
         fill: $negative-colour;
-        stroke: $negative-colour;
+        stroke: darken($negative-colour, 5%);
       }
     }
 
