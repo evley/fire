@@ -20,7 +20,7 @@ const settings: BubbleGraphSettings = {
   centreX: width * 0.5,
   centreY: height * 0.5,
   strength: 0.05,
-  padding: 8
+  padding: 6
 };
 
 @Injectable({
@@ -52,36 +52,38 @@ export class BubbleGraphService {
       );
   }
 
-  public createNode(nodes: DataItemNode[]): any {
+  public createNode(
+    nodes: DataItemNode[],
+    simulation: d3.Simulation<d3.SimulationNodeDatum, any>
+  ): any {
     return this._createSvg()
       .selectAll('.data-item')
       .data(nodes)
       .enter()
       .append('g')
-      .attr('class', (d) => `data-item ${this._dataItemClass(d.data)}`);
-    // TODO: Allow dragging?
-    // .call(
-    //   d3
-    //     .drag()
-    //     .on('start', (d: DataItemNode) => {
-    //       if (!d3.event.active) {
-    //         simulation.alphaTarget(0.2).restart();
-    //       }
-    //       d.fx = d.x;
-    //       d.fy = d.y;
-    //     })
-    //     .on('drag', (d: DataItemNode) => {
-    //       d.fx = d3.event.x;
-    //       d.fy = d3.event.y;
-    //     })
-    //     .on('end', (d: DataItemNode) => {
-    //       if (!d3.event.active) {
-    //         simulation.alphaTarget(0);
-    //       }
-    //       d.fx = null;
-    //       d.fy = null;
-    //     })
-    // );
+      .attr('class', (d) => `data-item ${this._dataItemClass(d.data)}`)
+      .call(
+        d3
+          .drag()
+          .on('start', (d: DataItemNode) => {
+            if (!d3.event.active) {
+              simulation.alphaTarget(0.2).restart();
+            }
+            d.fx = d.x;
+            d.fy = d.y;
+          })
+          .on('drag', (d: DataItemNode) => {
+            d.fx = d3.event.x;
+            d.fy = d3.event.y;
+          })
+          .on('end', (d: DataItemNode) => {
+            if (!d3.event.active) {
+              simulation.alphaTarget(0);
+            }
+            d.fx = null;
+            d.fy = null;
+          })
+      );
   }
 
   public simulationTick(node: d3.Selection<SVGGElement, DataItemNode, SVGSVGElement, any>): void {
