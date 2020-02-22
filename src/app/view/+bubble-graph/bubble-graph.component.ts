@@ -23,7 +23,7 @@ export class BubbleGraphComponent {
     const simulation = this._bubbleGraphService.createSimulation();
     const nodes = this._bubbleGraphService.createNodes(items);
     simulation.nodes(nodes).on('tick', () => this._bubbleGraphService.simulationTick(node));
-    const node = this._bubbleGraphService.createNode(nodes);
+    const node = this._bubbleGraphService.createNode(nodes, simulation);
 
     // Add to simulation
     this._bubbleGraphService.addCircle(node, simulation);
