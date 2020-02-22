@@ -14,7 +14,7 @@ const width = document.body.clientWidth;
 const height = document.body.clientHeight;
 const settings: BubbleGraphSettings = {
   chartId: 'chart',
-  weightingProp: 'impact',
+  weightingProp: 'value',
   width,
   height,
   centreX: width * 0.5,

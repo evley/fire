@@ -9,4 +9,5 @@ export interface DataItem {
   essential: boolean;
   liability: number;
   assets: number;
+  value: number;
 }

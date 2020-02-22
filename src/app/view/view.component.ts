@@ -69,34 +69,46 @@ export class ViewComponent implements OnInit {
     const data = this._getData();
     const dataIitems = this._buildDataItems(data);
     this._setFinancials(dataIitems);
-    const dataItemsWithImpact = this._setImpact(dataIitems);
-    this.items = this._addItemSummary(dataItemsWithImpact);
+    this.items = this._prepareForGraph(dataIitems);
   }
 
-  private _addItemSummary(items: DataItem[]): DataItem[] {
-    return [
-      ...items,
-      {
-        key: true,
-        name: 'Summary',
-        image: '',
-        icon: '',
-        impact: 0,
-        income: 0,
-        expenditure: 0,
-        essential: false,
-        liability: 0,
-        assets: 0
-      }
-    ];
+  private _dataItemSummary(): DataItem {
+    return {
+      key: true,
+      name: 'Summary',
+      image: '',
+      icon: '',
+      impact: 0,
+      income: 0,
+      expenditure: 0,
+      essential: false,
+      liability: 0,
+      assets: 0,
+      value: 0
+    };
   }
 
   private _getData(): object[] {
     return JSON.parse(window.localStorage.getItem(CONSTANTS.appId));
   }
 
-  private _setImpact(items: DataItem[]): DataItem[] {
-    return items.map((item) => ({ ...item, impact: this._calculateImpact(item) }));
+  private _prepareForGraph(items: DataItem[]): DataItem[] {
+    const itemsWithImpact = items.map((item) => ({ ...item, impact: this._calculateImpact(item) }));
+    const itemsWithValue = itemsWithImpact.map((item) => ({
+      ...item,
+      value: this._calculateValue(itemsWithImpact, item)
+    }));
+    return [...itemsWithValue, this._dataItemSummary()];
+  }
+
+  private _calculateValue(items: DataItem[], item: DataItem): number {
+    const maxImpact = Math.max(...items.map((i) => i.impact).filter((i) => isFinite(i)));
+    const value = isFinite(item.impact)
+      ? item.impact < 0
+        ? Math.abs(item.impact)
+        : item.impact
+      : maxImpact * 3;
+    return value;
   }
 
   private _calculateImpact(item: DataItem): number {
