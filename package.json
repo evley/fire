@@ -21,7 +21,7 @@
     "@angular/platform-browser": "~9.0.0",
     "@angular/platform-browser-dynamic": "~9.0.0",
     "@angular/router": "~9.0.0",
-    "@evley/importer": "^0.0.1",
+    "@evley/importer": "^0.0.2",
     "d3": "^5.15.0",
     "d3-hierarchy": "^1.1.9",
     "rxjs": "~6.5.4",
