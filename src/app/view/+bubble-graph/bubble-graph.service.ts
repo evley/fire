@@ -144,7 +144,7 @@ export class BubbleGraphService {
       .html(
         (d) => `
           <h1 class="data-item__summary__title">
-            ${this._yearsMonthsDays(financial.fireTime.value)}
+            ${this._yearsMonthsDays(financial.fireTime.value)} away from <strong>FIRE</strong>
           </h1>
           ${this._getOrderedFinancialKeys(financial).reduce(
             (listStr, key) =>
