@@ -1,10 +1,10 @@
-import { CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { CONSTANTS } from '../app.constant';
+import { AppService } from '../app.service';
 import { DataItem } from './+bubble-graph/data-item.interface';
-import { Financial } from './+header/financial.interface';
+import { Financial } from './financial.interface';
 
 const booleanList = [CONSTANTS.financial.essential];
 const numberList = [
@@ -51,7 +51,12 @@ export class ViewComponent implements OnInit {
     }
   };
 
-  constructor(private _router: Router) {}
+  constructor(private _router: Router, private _appService: AppService) {
+    this._appService.refreshData$.subscribe(() => {
+      this._resetData();
+      setTimeout(() => this._setData(), 100);
+    });
+  }
 
   public ngOnInit(): void {
     if (this._hasData()) {
@@ -61,8 +66,16 @@ export class ViewComponent implements OnInit {
     }
   }
 
+  public get hasItems(): boolean {
+    return this.items.length > 0;
+  }
+
   private _hasData(): boolean {
     return Boolean(this._getData());
+  }
+
+  private _resetData(): void {
+    this.items = [];
   }
 
   private _setData(): void {

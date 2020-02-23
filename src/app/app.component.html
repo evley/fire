@@ -1,14 +1,20 @@
+<app-header
+  [hasData]="hasData"
+  (importClosed)="onImportClosed($event)">
+</app-header>
+
 <div
   class="app"
-  [class.app--no-user]="!hasData()">
+  [class.app--no-user]="!hasData">
 
-  <div *ngIf="hasData()">
+  <div *ngIf="hasData">
     <router-outlet></router-outlet>
   </div>
 
   <div
     class="app__zero-data"
-    *ngIf="!hasData()">
+    *ngIf="!hasData">
+
     <p class="app__zero-data__message">
       No data to view. Import some.
       <mat-icon
@@ -20,7 +26,8 @@
     </p>
     <evley-importer
       [name]="importName"
-      [importMethods]="importMethods">
+      [importMethods]="importMethods"
+      (importClosed)="onImportClosed($event)">
     </evley-importer>
   </div>
 </div>

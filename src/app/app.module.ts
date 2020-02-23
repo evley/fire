@@ -8,8 +8,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ImporterModule } from '@evley/importer';
 
+import { HeaderModule } from './+header/header.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AppService } from './app.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,9 +23,10 @@ import { AppComponent } from './app.component';
     HttpClientModule,
     MatTooltipModule,
     MatIconModule,
+    HeaderModule,
     ImporterModule
   ],
-  providers: [],
+  providers: [AppService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

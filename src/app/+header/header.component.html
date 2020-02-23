@@ -6,10 +6,14 @@
     <small>.evley.app</small>
   </h1>
 
-  <div class="header__import">
+  <div
+    *ngIf="hasData"
+    class="header__import">
+
     <evley-importer
       [name]="importName"
-      [importMethods]="importMethods">
+      [importMethods]="importMethods"
+      (importClosed)="onImportClosed($event)">
     </evley-importer>
   </div>
 

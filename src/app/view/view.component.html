@@ -1,8 +1,5 @@
-<app-header
-  [financial]="financial">
-</app-header>
-
 <app-bubble-graph
+  *ngIf="hasItems"
   [financial]="financial"
   [items]="items">
 </app-bubble-graph>

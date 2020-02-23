@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { CONSTANTS } from './app.constant';
+import { AppService } from './app.service';
 
 @Component({
   selector: 'app-root',
@@ -12,18 +13,25 @@ export class AppComponent implements OnInit {
   public importName = CONSTANTS.appId;
   public importMethods = CONSTANTS.importMethods;
 
-  constructor(private _router: Router) {}
+  constructor(private _router: Router, private _appService: AppService) {}
 
   public ngOnInit(): void {
-    if (this.hasData()) {
+    if (this.hasData) {
       this._goToView();
     } else {
       this._goToDefault();
     }
   }
 
-  public hasData(): boolean {
+  public get hasData(): boolean {
     return Boolean(window.localStorage.getItem(CONSTANTS.appId));
+  }
+
+  public onImportClosed(imported: boolean): void {
+    if (imported) {
+      this._goToView();
+      this._appService.refreshData$.next();
+    }
   }
 
   private _goToView(): void {

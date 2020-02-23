@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Financial } from '../+header/financial.interface';
+import { Financial } from '../financial.interface';
 import { BubbleGraphService } from './bubble-graph.service';
 import { DataItem } from './data-item.interface';
 

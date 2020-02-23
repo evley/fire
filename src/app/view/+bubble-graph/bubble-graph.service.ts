@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import * as d3 from 'd3';
 import { CONSTANTS } from 'src/app/app.constant';
 
-import { Financial } from '../+header/financial.interface';
+import { Financial } from '../financial.interface';
 import { BubbleGraphSettings } from './bubble-graph-settings.interface';
 import { DataItemNode } from './data-item-node.interface';
 import { DataItem } from './data-item.interface';
