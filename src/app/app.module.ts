@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -21,7 +20,6 @@ import { AppService } from './app.service';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    MatTooltipModule,
     MatIconModule,
     HeaderModule,
     ImporterModule
