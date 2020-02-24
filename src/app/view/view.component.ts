@@ -181,7 +181,7 @@ export class ViewComponent implements OnInit {
       if (isInList(booleanList)) {
         return value && Number(value) > 0;
       } else if (isInList(numberList)) {
-        return value ? Number(value) : 0;
+        return value ? Number(value.replace(',', '')) : 0;
       } else {
         return value;
       }

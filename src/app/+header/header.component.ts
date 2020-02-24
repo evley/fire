@@ -13,6 +13,7 @@ export class HeaderComponent {
 
   public importName = CONSTANTS.appId;
   public importMethods = CONSTANTS.importMethods;
+  public projectLink = CONSTANTS.projectLink;
 
   public onImportClosed(imported: boolean): void {
     this.importClosed.emit(imported);

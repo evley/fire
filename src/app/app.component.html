@@ -16,13 +16,12 @@
     *ngIf="!hasData">
 
     <p class="app__zero-data__message">
-      No data to view. Import some.
-      <mat-icon
-        class="app__zero-data__message__icon"
-        color="warn"
-        matTooltip="This app is a read only experience. Data is stored locally on your device and can be removed at any time.">
-        info
-      </mat-icon>
+      No data to view. Import some. Need a&nbsp;
+      <a class="app__zero-data__message__link"
+         target="_blank"
+         [href]="templateLink">
+         template
+      </a>?
     </p>
     <evley-importer
       [name]="importName"

@@ -12,6 +12,7 @@ import { AppService } from './app.service';
 export class AppComponent implements OnInit {
   public importName = CONSTANTS.appId;
   public importMethods = CONSTANTS.importMethods;
+  public templateLink = CONSTANTS.templateLink;
 
   constructor(private _router: Router, private _appService: AppService) {}
 
