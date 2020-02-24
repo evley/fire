@@ -1,15 +1,27 @@
 
 <div class="header">
 
-  <div class="header__row">
-    <h1 class="header__row__title">
-      <span class="header__row__title__app-id">FIRE</span>
+  <div class="header__col">
+    <h1 class="header__col__title">
+      <span class="header__col__title__app-id">FIRE</span>
       <small>.evley.app</small>
     </h1>
+    <small class="header__col__project">
+      <span class="header__col__project__heart">&hearts;</span> open source -&nbsp;
+      <a
+        class="header__col__project__link"
+        target="_blank"
+        [href]="projectLink">
+        fork me
+      </a>
+    </small>
 
+  </div>
+
+  <div class="header__col">
     <div
       *ngIf="hasData"
-      class="header__row__import">
+      class="header__col__import">
 
       <evley-importer
         [name]="importName"
@@ -17,18 +29,6 @@
         (importClosed)="onImportClosed($event)">
       </evley-importer>
     </div>
-  </div>
-
-  <div class="header__row header__row--no-padding">
-    <small class="header__row__project">
-      <span class="header__row__project__heart">&hearts;</span> open source -&nbsp;
-      <a
-        class="header__row__project__link"
-        target="_blank"
-        [href]="projectLink">
-        fork me
-      </a>
-    </small>
   </div>
 
 
