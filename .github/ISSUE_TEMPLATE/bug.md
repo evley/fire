@@ -19,5 +19,5 @@ What behaviour did you actually see?
 
 #### Environment
 
-- Angular:
 - Browser(s):
+- Operating system:
