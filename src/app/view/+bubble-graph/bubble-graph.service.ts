@@ -33,7 +33,6 @@ export class BubbleGraphService {
       .forceSimulation()
       .force('charge', d3.forceManyBody())
       .force('collide', this._forceCollide)
-      .force('center', d3.forceCenter(settings.centreX, settings.centreY))
       .force('x', d3.forceX(settings.centreX).strength(settings.strength))
       .force('y', d3.forceY(settings.centreY).strength(settings.strength));
   }
@@ -45,8 +44,8 @@ export class BubbleGraphService {
         (item) =>
           ({
             ...item,
-            x: settings.centreX + (item.x - settings.centreX) * 10,
-            y: settings.centreY + (item.y - settings.centreY) * 10,
+            x: settings.centreX + (item.x - settings.centreX) * 3,
+            y: settings.centreY + (item.y - settings.centreY) * 3,
             r: 0,
             radius: item.r
           } as DataItemNode)
@@ -167,8 +166,10 @@ export class BubbleGraphService {
       .attr('class', 'data-item__summary')
       .transition()
       .duration(settings.transitionSpeed * 2)
-      .ease(d3.easePolyOut)
+      .ease(d3.easeElasticOut)
       .tween('circleIn', (d) => (t) => {
+        d.r = d3.interpolateNumber(0, d.radius)(t);
+        simulation.force('collide', this._forceCollide);
         d.fx = d3.interpolateNumber(d.x, settings.centreX)(t);
         d.fy = d3.interpolateNumber(d.y, settings.centreY)(t);
         d.r = d3.interpolateNumber(d.r, settings.centreY * 0.5)(t);
@@ -251,7 +252,6 @@ export class BubbleGraphService {
   ): d3.HierarchyNode<{
     children: DataItem[];
   }> {
-    // TODO: Impact items which are negative are ignored, decide how to action
     return d3
       .hierarchy({ children: items })
       .sum((d) => d[settings.weightingProp])

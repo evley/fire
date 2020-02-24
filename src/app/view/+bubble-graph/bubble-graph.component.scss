@@ -1,5 +1,4 @@
 @import 'variables';
-@import 'animations';
 
 ::ng-deep {
 
@@ -15,8 +14,6 @@
   }
 
   .data-item {
-    @include transition;
-
     $self: &;
     fill: #fff;
 
@@ -81,7 +78,8 @@
     &--key {
       #{$self}__circle {
         fill: #fff !important;
-        stroke: #fff !important;
+        stroke: #ddd !important;
+        stroke-width: 1px;
       }
     }
 
