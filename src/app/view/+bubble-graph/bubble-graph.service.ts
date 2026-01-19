@@ -10,19 +10,27 @@ import { DataItemNode } from './data-item-node.interface';
 import { DataItem } from './data-item.interface';
 
 const negativeFinancialList = [CONSTANTS.financial.liability, CONSTANTS.financial.expenditure];
-const width = document.body.clientWidth;
-const height = document.body.clientHeight;
-const settings: BubbleGraphSettings = {
-  chartId: 'chart',
-  weightingProp: 'value',
-  width,
-  height,
-  centreX: width * 0.5,
-  centreY: height * 0.5,
-  strength: 0.05,
-  padding: 6,
-  transitionSpeed: 800
-};
+
+function getSettings(): BubbleGraphSettings {
+  const width = document.body.clientWidth || window.innerWidth;
+  const height = document.body.clientHeight || window.innerHeight;
+  return {
+    chartId: 'chart',
+    weightingProp: 'value',
+    width,
+    height,
+    centreX: width * 0.5,
+    centreY: height * 0.5,
+    strength: 0.05,
+    padding: 6,
+    transitionSpeed: 800
+  };
+}
+
+// Helper to ensure a value is a valid number, defaulting to fallback if NaN/undefined
+function safeNumber(value: number, fallback: number = 0): number {
+  return (typeof value === 'number' && isFinite(value)) ? value : fallback;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -33,22 +41,29 @@ export class BubbleGraphService {
       .forceSimulation()
       .force('charge', d3.forceManyBody())
       .force('collide', this._forceCollide)
-      .force('x', d3.forceX(settings.centreX).strength(settings.strength))
-      .force('y', d3.forceY(settings.centreY).strength(settings.strength));
+      .force('x', d3.forceX(getSettings().centreX).strength(getSettings().strength))
+      .force('y', d3.forceY(getSettings().centreY).strength(getSettings().strength));
   }
 
   public createNodes(items: DataItem[]): DataItemNode[] {
+    const settings = getSettings();
     return this._createBubble()(this._createHierarchy(items))
       .leaves()
       .map(
-        (item) =>
-          ({
+        (item) => {
+          const centreX = settings.centreX;
+          const centreY = settings.centreY;
+          const itemX = safeNumber(item.x, centreX);
+          const itemY = safeNumber(item.y, centreY);
+          const itemR = safeNumber(item.r, 20); // Default radius of 20 if NaN
+          return {
             ...item,
-            x: settings.centreX + (item.x - settings.centreX) * 3,
-            y: settings.centreY + (item.y - settings.centreY) * 3,
+            x: centreX + (itemX - centreX) * 3,
+            y: centreY + (itemY - centreY) * 3,
             r: 0,
-            radius: item.r
-          } as DataItemNode)
+            radius: itemR
+          } as DataItemNode;
+        }
       );
   }
 
@@ -87,17 +102,22 @@ export class BubbleGraphService {
   }
 
   public simulationTick(node: d3.Selection<SVGGElement, DataItemNode, SVGSVGElement, any>): void {
+    const settings = getSettings();
     node
       .attr(
         'transform',
-        (d) =>
-          `translate(${Math.max(d.r, Math.min(settings.width - d.r, d.x))},${Math.max(
-            d.r,
-            Math.min(settings.height - d.r, d.y)
-          )})`
+        (d) => {
+          const r = safeNumber(d.r, 0);
+          const x = safeNumber(d.x, settings.centreX);
+          const y = safeNumber(d.y, settings.centreY);
+          return `translate(${Math.max(r, Math.min(settings.width - r, x))},${Math.max(
+            r,
+            Math.min(settings.height - r, y)
+          )})`;
+        }
       )
       .select('circle')
-      .attr('r', (d) => d.r);
+      .attr('r', (d) => safeNumber(d.r, 0));
   }
 
   public addCircle(
@@ -109,7 +129,7 @@ export class BubbleGraphService {
       .attr('r', 0)
       .attr('class', 'data-item__circle')
       .transition()
-      .duration(settings.transitionSpeed)
+      .duration(getSettings().transitionSpeed)
       .ease(d3.easeElasticOut)
       .tween('circleIn', (d) => (t) => {
         d.r = d3.interpolateNumber(0, d.radius)(t);
@@ -125,7 +145,7 @@ export class BubbleGraphService {
       .attr('class', 'data-item__text')
       .attr('dy', '.3em')
       .style('text-anchor', 'middle')
-      .style('font-size', (d) => `${d.radius}px`);
+      .style('font-size', (d) => `${safeNumber(d.radius, 20)}px`);
   }
 
   public addKeySummaryCircle(
@@ -146,33 +166,33 @@ export class BubbleGraphService {
             ${this._yearsMonthsDays(financial.fireTime.value)} away from <strong>FIRE</strong>
           </h1>
           ${this._getOrderedFinancialKeys(financial).reduce(
-            (listStr, key) =>
-              (listStr +=
-                '<p class="data-item__summary__finance-item">' +
-                '<span class="data-item__summary__finance-item__name">' +
-                financial[key].name +
-                ':' +
-                '</span> ' +
-                '<span class="data-item__summary__finance-item__value ' +
-                this._summaryFinanceItemClass(key) +
-                '">' +
-                this._displayAsCurrency(financial[key].value) +
-                '</span>' +
-                '</p>'),
-            ''
-          )}
+          (listStr, key) =>
+          (listStr +=
+            '<p class="data-item__summary__finance-item">' +
+            '<span class="data-item__summary__finance-item__name">' +
+            financial[key].name +
+            ':' +
+            '</span> ' +
+            '<span class="data-item__summary__finance-item__value ' +
+            this._summaryFinanceItemClass(key) +
+            '">' +
+            this._displayAsCurrency(financial[key].value) +
+            '</span>' +
+            '</p>'),
+          ''
+        )}
         `
       )
       .attr('class', 'data-item__summary')
       .transition()
-      .duration(settings.transitionSpeed * 2)
+      .duration(getSettings().transitionSpeed * 2)
       .ease(d3.easeElasticOut)
       .tween('circleIn', (d) => (t) => {
         d.r = d3.interpolateNumber(0, d.radius)(t);
         simulation.force('collide', this._forceCollide);
-        d.fx = d3.interpolateNumber(d.x, settings.centreX)(t);
-        d.fy = d3.interpolateNumber(d.y, settings.centreY)(t);
-        d.r = d3.interpolateNumber(d.r, settings.centreY * 0.5)(t);
+        d.fx = d3.interpolateNumber(d.x, getSettings().centreX)(t);
+        d.fy = d3.interpolateNumber(d.y, getSettings().centreY)(t);
+        d.r = d3.interpolateNumber(d.r, getSettings().centreY * 0.5)(t);
         simulation.force('collide', this._forceCollide);
       });
   }
@@ -184,10 +204,10 @@ export class BubbleGraphService {
       .attr('class', 'data-item__circle__image')
       .attr('clip-path', (d) => `url(${d.data.image})`)
       .attr('xlink:href', (d) => d.data.image)
-      .attr('x', (d) => -d.radius * 0.7)
-      .attr('y', (d) => -d.radius * 0.7)
-      .attr('height', (d) => d.radius * 2 * 0.7)
-      .attr('width', (d) => d.radius * 2 * 0.7);
+      .attr('x', (d) => -safeNumber(d.radius, 20) * 0.7)
+      .attr('y', (d) => -safeNumber(d.radius, 20) * 0.7)
+      .attr('height', (d) => safeNumber(d.radius, 20) * 2 * 0.7)
+      .attr('width', (d) => safeNumber(d.radius, 20) * 2 * 0.7);
   }
 
   public addCircleIcon(node: d3.Selection<SVGGElement, DataItemNode, SVGSVGElement, any>): void {
@@ -198,8 +218,8 @@ export class BubbleGraphService {
       .attr('class', 'material-icons data-item__circle__icon')
       .attr('dy', '.3em')
       .style('text-anchor', 'middle')
-      .style('font-size', (d) => `${d.radius}px`)
-      .attr('y', (d) => d.radius / 5);
+      .style('font-size', (d) => `${safeNumber(d.radius, 20)}px`)
+      .attr('y', (d) => safeNumber(d.radius, 20) / 5);
   }
 
   public addCircleTitle(node: d3.Selection<SVGGElement, DataItemNode, SVGSVGElement, any>): void {
@@ -209,8 +229,7 @@ export class BubbleGraphService {
       .append('title')
       .text(
         (d) =>
-          `${d.data.name}\n-----------\n${
-            this._isEssential(d.data) ? '✔ Essential\n' : ''
+          `${d.data.name}\n-----------\n${this._isEssential(d.data) ? '✔ Essential\n' : ''
           }+ ${this._displayAsCurrency(
             d.data.essential ? d.data.expenditure * CONSTANTS.fireMultiplier : 0
           )} FIRE Fund Required\n+ ${this._displayAsCurrency(
@@ -219,32 +238,30 @@ export class BubbleGraphService {
             d.data.expenditure
           )} Expenditure\n+ ${this._displayAsCurrency(
             d.data.liability
-          )} Liability\n+ ${this._displayAsCurrency(d.data.assets)} Assets\n-----------\n${
-            this._hasNegativeImpact(d.data.impact) ? '+' : '-'
-          } ${this._yearsMonthsDays(d.data.impact)} ${
-            this._hasNegativeImpact(d.data.impact) ? 'to' : 'from'
+          )} Liability\n+ ${this._displayAsCurrency(d.data.assets)} Assets\n-----------\n${this._hasNegativeImpact(d.data.impact) ? '+' : '-'
+          } ${this._yearsMonthsDays(d.data.impact)} ${this._hasNegativeImpact(d.data.impact) ? 'to' : 'from'
           } FIRE time`
       );
   }
 
   private _createSvg(): d3.Selection<SVGSVGElement, any, HTMLElement, any> {
     return d3
-      .select(`#${settings.chartId}`)
+      .select(`#${getSettings().chartId}`)
       .append('svg')
       .attr('preserveAspectRatio', 'xMidYMid meet')
-      .attr('viewBox', `0 0 ${settings.width} ${settings.height}`)
+      .attr('viewBox', `0 0 ${getSettings().width} ${getSettings().height}`)
       .attr('class', 'chart__svg');
   }
 
   private get _forceCollide(): d3.ForceCollide<DataItemNode> {
-    return d3.forceCollide((d: DataItemNode) => d.r + settings.padding);
+    return d3.forceCollide((d: DataItemNode) => d.r + getSettings().padding);
   }
 
   private _createBubble(): d3.PackLayout<any> {
     return d3
       .pack()
-      .size([settings.width, settings.height])
-      .padding(settings.padding);
+      .size([getSettings().width, getSettings().height])
+      .padding(getSettings().padding);
   }
 
   private _createHierarchy(
@@ -254,17 +271,15 @@ export class BubbleGraphService {
   }> {
     return d3
       .hierarchy({ children: items })
-      .sum((d) => d[settings.weightingProp])
-      .sort((a, b) => b[settings.weightingProp] - a[settings.weightingProp]);
+      .sum((d) => d[getSettings().weightingProp])
+      .sort((a, b) => b[getSettings().weightingProp] - a[getSettings().weightingProp]);
   }
 
   private _dataItemClass(item: DataItem): string {
     const classStart = 'data-item--';
-    return `${classStart}${this._hasNegativeImpact(item.impact) ? 'negative' : 'positive'} ${
-      this._hasImage(item) ? `${classStart}has-image` : ''
-    } ${this._isKey(item) ? `${classStart}key` : ''} ${
-      this._isEssential(item) ? `${classStart}essential` : ''
-    }`;
+    return `${classStart}${this._hasNegativeImpact(item.impact) ? 'negative' : 'positive'} ${this._hasImage(item) ? `${classStart}has-image` : ''
+      } ${this._isKey(item) ? `${classStart}key` : ''} ${this._isEssential(item) ? `${classStart}essential` : ''
+      }`;
   }
 
   private _isEssential(item: DataItem): boolean {
@@ -281,9 +296,8 @@ export class BubbleGraphService {
     const years = Math.floor(totalDays / 365);
     const months = Math.floor((totalDays - years * 365) / 30);
     const days = Math.floor(totalDays - years * 365 - months * 30);
-    return `${years} year${isPlural(years)}${
-      months > 0 ? ' ' + months + ' month' + isPlural(months) : ''
-    }${days > 0 ? ' and ' + days + ' day' + isPlural(days) : ''}`;
+    return `${years} year${isPlural(years)}${months > 0 ? ' ' + months + ' month' + isPlural(months) : ''
+      }${days > 0 ? ' and ' + days + ' day' + isPlural(days) : ''}`;
   }
 
   private _hasImage(item: DataItem): boolean {
@@ -308,9 +322,8 @@ export class BubbleGraphService {
   }
 
   private _summaryFinanceItemClass(key: string): string {
-    return `data-item__summary__finance-item__value--${
-      this._isInNegativeList(key) ? 'negative' : 'positive'
-    }`;
+    return `data-item__summary__finance-item__value--${this._isInNegativeList(key) ? 'negative' : 'positive'
+      }`;
   }
 
   private _displayAsCurrency(num: number) {
